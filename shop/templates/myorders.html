@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+    我的订单
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='panel panel-default'>
+                    <div class='panel-heading' align=center>
+                        <h3>欢迎光临迷你小电商</h3>
+                        {% if user.is_authenticated %}
+                            <p>Welcome: {{ user.username }}</p>
+                        {% else %}
+                            <p>欢迎使用Github注册/登录你的账号才能购买本店优惠商品。(测试使用,如有侵权请联系下架)</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-info">
+                    <div class="panel panel-heading">
+                        <h4>我的订单</h4>
+                    </div>
+                    <div class="panel panel-body">
+                        {% for order in orders %}
+                        {% if forloop.first %}
+                        <table border="1px">
+                            <tr>
+                                <td width="100px" align="center">订单编号</td>
+                                <td width="100px" align="center">姓名</td>
+                                <td width="300px" align="center">地址</td>
+                                <td width="200px" align="center">订购时间</td>
+                                <td width="100px" align="center">是否付款</td>
+                                <td width="100px" align="center">在线付款</td>
+                            </tr>
+                        {% endif %}
+
+                        <div class="listgroup">
+                            <div class="listgroup-item">
+                                <tr>
+                                    <td align="right">{{ order.id }}</td>
+                                    <td align="center">{{ order.full_name }}</td>
+                                    <td>{{ order.address }}</td>
+                                    <td align="center">{{ order.created_at }}</td>
+                                    <td align="center">{{ order.paid | yesno:"是,否" }}</td>
+                                    <td align="center">
+                                        {% if not order.paid %}
+                                            <button class="btn btn-warning">
+                                                <a href="/payment/{{ order.id }}/">前往付款</a>
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </div>
+                        </div>
+                        {% if forloop.last %}
+                        </table>
+                        {% endif %}
+                        {% empty %}
+                            <em>没有处理中的订单</em>
+                        {% endfor %}
+                    </div>
+                <div class="panel panel-footer">
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

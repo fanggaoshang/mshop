@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}
+    查看购物车
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='panel panel-default'>
+                    <div class='panel-heading' align=center>
+                        <h3>欢迎光临迷你小电商</h3>
+                        {% if user.is_authenticated %}
+                            <p>Welcome: {{ user.username }}</p>
+                        {% else %}
+                            <p>欢迎使用Github注册/登录你的账号才能购买本店优惠商品。(测试使用,如有侵权请联系下架)</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-info">
+                    <div class="panel panel-heading">
+                        <h4>新订单</h4>
+                    </div>
+                    <div class="panel panel-body">
+                    <div class="panel panel-body">
+                        {% for item in cart %}
+                        {% if forloop.first %}
+                        <table border="1px">
+                            <tr>
+                                <td width="300px" align="center">产品名称</td>
+                                <td width="100px" align="center">单价</td>
+                                <td width="100px" align="center">数量</td>
+                                <td width="100px" align="center">小计</td>
+                                <td width="100px" align="center">删除</td>
+                            </tr>
+                        {% endif %}
+
+                        <div class="listgroup">
+                            <div class="listgroup-item">
+                                <tr>
+                                    <td align="right">{{ item.product.name }}</td>
+                                    <td align="center">{{ item.product.price }}</td>
+                                    <td align="right">{{ item.quantity }}</td>
+                                    <td align="center">{{ item.total_price }}</td>
+                                    <td align="center"><a href="{% url 'removeitem-url' item.product.id %}"><sapn class="glyphicon glyphicon-trash"></sapn></a></td>
+                                </tr>
+                            </div>
+                        </div>
+                        {% if forloop.last %}
+                        </table>
+                        <button class="btn btn-warning"><a href="/cart">回购物车</a></button>
+                        <button class="btn btn-warning"><a href="/cart">回首页</a></button>
+                        {% endif %}
+                        {% empty %}
+                            <em>购物车空空如也</em>
+                        {% endfor %}
+                    </div>
+                    </div>
+
+                <div class="panel panel-footer">
+                    <h4>总计: {{ cart.summary }}元</h4>
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        <table>
+                            {{ form.as_table }}
+                        </table>
+                        <input type="submit" value="下订单">
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

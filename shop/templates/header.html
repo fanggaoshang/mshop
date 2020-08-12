@@ -1,0 +1,31 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand" align="center">
+                迷你小电商
+            </div>
+        </div>
+        {% load account %}
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">产品<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    {% for cate in all_categories %}
+                        <li><a href="/{{ cate.id }}">{{ cate.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% if user.is_authenticated %}
+            <li><a href="/cart/">查看购物车</a></li>
+            <li><a href="{% url "account_reset_password" %}">重置密码</a></li>
+            <li><a href="{% url "account_email" %}">修改电子邮件</a></li>
+            <li><a href="{% url "account_logout" %}">注销</a></li>
+            {% else %}
+            <li><a href="{% url "account_login" %}">登录</a></li>
+            <li><a href="{% url "account_signup" %}">注册</a></li>
+            {% endif %}
+            <li><a href="/admin">后台管理</a></li>
+        </ul>
+    </div>
+</nav>

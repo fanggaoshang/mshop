@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}
+    Pay using PayPal
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='panel panel-default'>
+                    <div class='panel-heading' align=center>
+                        <h3>欢迎光临迷你小电商</h3>
+                        {% if user.is_authenticated %}
+                            <p>Welcome: {{ user.username }}</p>
+                        {% else %}
+                            <p>欢迎使用Github注册/登录你的账号才能购买本店优惠商品。(测试使用,如有侵权请联系下架)</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-info">
+                    <div class="panel panel-heading">
+                        <h4>你刚刚取消了PayPal的付款</h4>
+                    </div>
+
+                    <div class="panel panel-body">
+                        请再次检查你的付款, 或是返回<a href="/myorders/">我的订单</a>选用其它付款方式
+                    </div>
+
+                    <div class="panel panel-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
